@@ -1,28 +1,24 @@
-﻿@model Vidly.ViewModels.MovieViewModel
+﻿@model IEnumerable<Vidly.Models.Movie>
 
 @{
     ViewData["Title"] = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Movies</h1>
-
-@if (Model.Movies.Count == 0)
-{
-    <text>We don't currently have any movies yet.</text>
-}
-
-
+<h2>Movies</h2>
 
 <table class="table table-bordered table-hover">
-
+    <thead>
         <tr>
             <th>Movies</th>
         </tr>
-        @foreach (var movie in @Model.Movies)
-        {
-            <tr>
-                <td>@movie.Name</td>
-            </tr>
-        }
+    </thead>
 
-    </table>
+    @foreach (var movie in @Model)
+    {
+        <tr>
+            <td>@movie.Name</td>
+        </tr>
+    }
+
+</table>

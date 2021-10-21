@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Vidly.Models;
-using Vidly.ViewModels;
 
 namespace Vidly.Controllers
 {
@@ -12,37 +9,30 @@ namespace Vidly.Controllers
     {
         public IActionResult Index()
         {
-            var customers = new List<Customer>
-            {
-                new Customer { Id = 1, Name = "John Smith"},
-                new Customer { Id = 2, Name = "Mary Williams"}
-            };
+            var customers = GetCustomers();
 
-            var viewModel = new CustomerViewModel
-            {
-                Customers = customers
-            };
-
-            return View(viewModel);
+            return View(customers);
         }
 
         public IActionResult Details(int id)
         {
-            var customers = new List<Customer>
+            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+
+            if (customer == null)
+            {
+                return new NotFoundResult();
+            }
+
+            return View(customer);
+        }
+
+        private IEnumerable<Customer> GetCustomers()
+        {
+            return new List<Customer>
             {
                 new Customer { Id = 1, Name = "John Smith"},
                 new Customer { Id = 2, Name = "Mary Williams"}
             };
-
-            int i;
-
-            for (i = 0; i < customers.Count; i++)
-            {
-                if (customers[i].Id == id)
-                    break;
-            }
-
-            return View(customers[i]);
         }
     }
 }

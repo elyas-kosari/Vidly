@@ -1,30 +1,45 @@
-﻿@model Vidly.ViewModels.CustomerViewModel
+﻿@model IEnumerable<Vidly.Models.Customer>
+
+@*
+    Note: I've set the model for this view to IEnumerable<Customer>.
+    This is a simple interface implemented by the list class. Since
+    in this view we only want to iterate over this list, and we don't
+    need any of the operations in the List class (eg Add, Remove, etc),
+    it's better to use the IEnumerable interface, which allows use to
+    iterate over the list. If in the future, we replace the List with a
+    different data structure, as long as it is enumerable, our view code
+    will remain unchanged.
+*@
 
 @{
     ViewData["Title"] = "Customers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Customers</h1>
+<h2>Customers</h2>
 
-@if (Model.Customers.Count == 0)
+@if (!Model.Any())
 {
-    <text>We don't currently have any customers yet.</text>
+    <p>We don't have any customers yet.</p>
 }
 else
 {
     <table class="table table-bordered table-hover">
-
-        <tr>
-            <th>Customer</th>
-        </tr>
-        @foreach (var customer in @Model.Customers)
-        {
+        <thead>
             <tr>
-                <td>
-                    <a asp-controller="Customers" asp-action="Details" asp-route-Id="@customer.Id">@customer.Name</a>
-                </td>
+                <th>Customer</th>
             </tr>
-        }
+        </thead>
+        <tbody>
+            @foreach (var customer in @Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Customers" asp-action="Details" asp-route-Id="@customer.Id">@customer.Name</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
 
     </table>
 }
