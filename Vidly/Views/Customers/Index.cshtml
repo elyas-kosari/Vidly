@@ -28,6 +28,7 @@ else
         <thead>
             <tr>
                 <th>Customer</th>
+                <th>Membership Type</th>
             </tr>
         </thead>
         <tbody>
@@ -36,6 +37,9 @@ else
                 <tr>
                     <td>
                         <a asp-controller="Customers" asp-action="Details" asp-route-Id="@customer.Id">@customer.Name</a>
+                    </td>
+                    <td>
+                        @customer.MembershipType.Name
                     </td>
                 </tr>
             }
