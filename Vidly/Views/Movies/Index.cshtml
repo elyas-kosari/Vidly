@@ -2,10 +2,13 @@
 
 @{
     ViewData["Title"] = "Movies";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Movies</h2>
+
+<p>
+    @Html.ActionLink("New Movie", "New", "Movies", null, new { @class = "btn btn-primary" })
+</p>
 
 <table class="table table-bordered table-hover">
     <thead>
@@ -14,17 +17,15 @@
             <th>Genre</th>
         </tr>
     </thead>
-
-    @foreach (var movie in @Model)
-    {
-        <tr>
-            <td>
-                <a asp-controller="Movies" asp-action="Details" asp-route-Id="@movie.Id">@movie.Name</a>
-            </td>
-            <td>
-                @movie.Genre.Name
-            </td>
-        </tr>
-    }
-
+    <tbody>
+        @foreach (var movie in @Model)
+        {
+            <tr>
+                <td>
+                    <a asp-controller="Movies" asp-action="Edit" asp-route-Id="@movie.Id">@movie.Name</a>
+                </td>
+                <td>@movie.Genre.Name</td>
+            </tr>
+        }
+    </tbody>
 </table>

@@ -10,8 +10,8 @@ using Vidly.Models;
 namespace Vidly.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211022022303_AddGenreTable")]
-    partial class AddGenreTable
+    [Migration("20211022183140_AddGenreIdFieldToMoviesTable")]
+    partial class AddGenreIdFieldToMoviesTable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,7 +63,7 @@ namespace Vidly.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Genre");
+                    b.ToTable("Genres");
                 });
 
             modelBuilder.Entity("Vidly.Models.MembershipType", b =>
@@ -98,7 +98,7 @@ namespace Vidly.Migrations
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GenreId")
+                    b.Property<int>("GenreId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -134,7 +134,9 @@ namespace Vidly.Migrations
                 {
                     b.HasOne("Vidly.Models.Genre", "Genre")
                         .WithMany()
-                        .HasForeignKey("GenreId");
+                        .HasForeignKey("GenreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Genre");
                 });

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using Vidly.Models;
 using Vidly.ViewModels;
@@ -33,24 +33,55 @@ namespace Vidly.Controllers
             return View(movie);
         }
 
-        /*// GET: Movies/Random
-        public ActionResult Random()
+        public IActionResult New()
         {
-            var movie = new Movie() { Name = "Shrek!" };
+            var genres = _context.Genres.ToList();
 
-            var customers = new List<Customer>
+            var viewModel = new MovieFormViewModel
             {
-                new Customer {Name = "Customer 1"},
-                new Customer {Name = "Customer 2"}
+                Genres = genres
             };
 
-            var viewModel = new CustomerViewModel
+            return View("MovieForm", viewModel);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var movie = _context.Movies.SingleOrDefault(c => c.Id == id);
+
+            if (movie == null)
+                return NotFound();
+
+            var viewModel = new MovieFormViewModel
             {
                 Movie = movie,
-                Customers = customers
+                Genres = _context.Genres.ToList()
             };
 
-            return View(viewModel);
-        }*/
+            return View("MovieForm", viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Save(Movie movie)
+        {
+            if (movie.Id == 0)
+            {
+                movie.DateAdded = DateTime.Now;
+                _context.Movies.Add(movie);
+            }
+            else
+            {
+                var movieInDb = _context.Movies.Single(m => m.Id == movie.Id);
+                movieInDb.Name = movie.Name;
+                //movieInDb.GenreId = movie.GenreId;
+                movieInDb.NumberInStock = movie.NumberInStock;
+                movieInDb.ReleaseDate = movie.ReleaseDate;
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Movies");
+        }
+
+
     }
 }
