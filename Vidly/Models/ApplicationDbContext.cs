@@ -9,9 +9,10 @@ namespace Vidly.Models
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MembershipType> MembershipTypes { get; set; }
 
-        public ApplicationDbContext(DbContextOptionsBuilder optionsBuilder)
+        public ApplicationDbContext(DbContextOptions options)
+            : base(options)
         {
-            optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            
         }
     }
 }
