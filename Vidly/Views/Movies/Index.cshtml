@@ -11,13 +11,19 @@
     <thead>
         <tr>
             <th>Movies</th>
+            <th>Genre</th>
         </tr>
     </thead>
 
     @foreach (var movie in @Model)
     {
         <tr>
-            <td>@movie.Name</td>
+            <td>
+                <a asp-controller="Movies" asp-action="Details" asp-route-Id="@movie.Id">@movie.Name</a>
+            </td>
+            <td>
+                @movie.Genre.Name
+            </td>
         </tr>
     }
 
