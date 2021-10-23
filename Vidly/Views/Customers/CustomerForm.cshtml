@@ -8,17 +8,22 @@
 
 <form asp-controller="Customers" asp-action="Save" method="post">
 
+    @Html.ValidationSummary()
     <div class="form-group">
         <label asp-for="@Model.Customer.Name"></label>
         <input type="text" class="form-control" asp-for="@Model.Customer.Name" />
+        @Html.ValidationMessageFor(m => m.Customer.Name)
+    </div>
+    <div class="form-group">
+        @*@Html.LabelFor(m => m.Customer.MembershipTypeId)*@
+        <label asp-for="@Model.Customer.MembershipTypeId">Membership Type</label>
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Memebership Type", new { @class = "form-group" })
+        @Html.ValidationMessageFor(m => m.Customer.MembershipTypeId)
     </div>
     <div class="form-group">
         <label asp-for="@Model.Customer.Birthdate">Date of Birth</label>
         <input type="text" class="form-control" asp-for="@Model.Customer.Birthdate" />
-    </div>
-    <div class="form-group">
-        <label asp-for="@Model.Customer.MembershipTypeId">Membership Type</label>
-        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Memebership Type", new { @class = "form-group"})
+        @Html.ValidationMessageFor(m => m.Customer.Birthdate)
     </div>
     <div class="checkbox">
         <input type="checkbox" asp-for="@Model.Customer.IsSubsctibedToNewsLetter" />
@@ -29,3 +34,8 @@
     <button type="submit" class="btn btn-primary">Save</button>
 
 </form>
+
+@section Scripts
+{
+    @await Html.PartialAsync("/Views/Shared/_ValidationScriptsPartial.cshtml")
+}

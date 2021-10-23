@@ -18,7 +18,7 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.Customer.MembershipTypeId">Membership Type</label>
-        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Memebership Type", new { @class = "form-group"})
+        @Html.DropDownListFor(m => m.Customer.MembershipTypeId, new SelectList(Model.MembershipTypes, "Id", "Name"), "Select Memebership Type", new { @class = "form-group" })
     </div>
     <div class="checkbox">
         <input type="checkbox" asp-for="@Model.Customer.IsSubsctibedToNewsLetter" />
